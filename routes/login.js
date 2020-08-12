@@ -31,9 +31,19 @@ module.exports = {
       failureRedirect: "/login?login_failed",
     }),
     function (req, res) {
-      // Successful authentication, redirect home.
+      res.redirect("/");
+    },
+  ],
+
+  getGoogleLogin: [passport.authenticate("google", { scope: ['profile'] })],
+
+  handleGoogleLogin: [
+    passport.authenticate("google", {
+      failureRedirect: "/login?login_failed",
+    }),
+    function (req, res) {
       res.redirect("/");
     },
   ]
-
+  
 };

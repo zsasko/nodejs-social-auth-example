@@ -1,6 +1,6 @@
 const { body, check, validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
-const User = require("../models/index")["User"];
+const User = require("../db/index")["User"];
 const passport = require("passport");
 
 module.exports = {

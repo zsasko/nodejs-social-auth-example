@@ -1,12 +1,11 @@
-const FacebookStrategy = require("passport-facebook").Strategy;
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const User = require("../models/index")["User"];
-
+const User = require("../db/index")["User"];
 const bcrypt = require("bcrypt");
-
 const dotenv = require("dotenv");
 const dotenvConfig = require("dotenv").config();
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const FacebookStrategy = require("passport-facebook").Strategy;
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 //
 //
 //  PASSPORT CONFIG
@@ -32,6 +31,7 @@ module.exports = function (passport) {
         const [user, status] = await User.findOrCreate({
           where: {
             social_user_id: profile.id,
+            name: profile.displayName,
             registration_type: "facebook",
           },
         });
@@ -61,6 +61,26 @@ module.exports = function (passport) {
             return done(null, false);
           }
         });
+      }
+    )
+  );
+
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: process.env.GOOGLE_APP_CALLBACK_URL,
+      },
+      async function (accessToken, refreshToken, profile, cb) {
+        const [user, status] = await User.findOrCreate({
+          where: {
+            social_user_id: profile.id,
+            name: profile.displayName,
+            registration_type: "google",
+          },
+        });
+        cb(null, user);
       }
     )
   );

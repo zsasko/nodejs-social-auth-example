@@ -10,7 +10,7 @@ const flash = require('express-flash-messages');
 const app = express();
 
 const { getHomePage } = require('./routes/index');
-const { handleLogout, postLogin, getLogin, getFacebookLogin, handleFacebookLogin } = require('./routes/login');
+const { handleLogout, postLogin, getLogin, getFacebookLogin, handleFacebookLogin, getGoogleLogin, handleGoogleLogin } = require('./routes/login');
 const { getRegister, submitRegister } = require('./routes/register');
 
 const db = mysql.createConnection({
@@ -47,13 +47,15 @@ app.get('/', getHomePage);
 
 app.post('/login', postLogin);
 app.get('/login', getLogin);
+app.get('/logout', handleLogout);
 
 app.get('/register', getRegister);
 app.post('/register', submitRegister);
 
 app.get('/auth/facebook', getFacebookLogin);
 app.get('/auth/facebook/callback', handleFacebookLogin);
-app.get('/logout', handleLogout);
+app.get('/auth/google', getGoogleLogin);
+app.get('/auth/google/callback', handleGoogleLogin);
 
 app.listen(process.env.PORT, () => {
     console.log(`server running on port: ${process.env.PORT}`);
