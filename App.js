@@ -10,7 +10,9 @@ const flash = require('express-flash-messages');
 const app = express();
 
 const { getHomePage } = require('./routes/index');
-const { handleLogout, postLogin, getLogin, getFacebookLogin, handleFacebookLogin, getGoogleLogin, handleGoogleLogin } = require('./routes/login');
+const { handleLogout, postLogin, getLogin } = require('./routes/login');
+const { getFacebookLogin, handleFacebookLogin } = require('./routes/facebook_login');
+const { getGoogleLogin, handleGoogleLogin } = require('./routes/google_login');
 const { getRegister, submitRegister } = require('./routes/register');
 
 const db = mysql.createConnection({
