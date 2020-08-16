@@ -1,4 +1,4 @@
-const User = require("../db/index")["User"];
+const User = require("../models/index")["User"];
 const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
 const dotenvConfig = require("dotenv").config();
